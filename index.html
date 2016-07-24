@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>React Tutorial</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.6.2/remarkable.min.js"></script>
+  </head>
+  <body>
+    <div id="content"></div>
+    <script type="text/babel">
+      var CommentList = React.createClass({
+        render: function() {
+          return (
+            <div className="commentList">
+              { this.props.comments.map((comment, index) => <div key={index}><p>{ comment }</p></div>) }
+            </div>
+          );
+        }
+      });
+      var CommentBox = React.createClass({
+        getInitialState: function() {
+          return {
+            comments: []
+          };
+        },
+        addComment: function() {
+          this.setState({
+            comments: this.state.comments.concat(this.refs.commentBody.value)
+          });
+          this.refs.commentBody.value = '';
+        },
+        clearComments: function() {
+          this.setState({
+            comments: []
+          });
+        },
+        render: function() {
+          return (
+            <div className="commentBox">
+              <h1>Comments</h1>
+              <CommentList comments={this.state.comments} />
+              <input type="text" ref="commentBody" />
+              <button onClick={this.addComment}>Add comment</button>
+              <br/>
+              <button onClick={this.clearComments}>Clear comments</button>
+            </div>
+          );
+        }
+      });
+      ReactDOM.render(
+        <CommentBox />,
+        document.getElementById('content')
+      );
+    </script>
+  </body>
+</html>
+
